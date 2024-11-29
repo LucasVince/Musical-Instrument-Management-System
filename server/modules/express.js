@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const userModel  = require('../DB/models/user.model.js');
+const userModel = require('../DB/models/user.model.js');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
 
@@ -9,13 +9,34 @@ app.use(express.json());
 
 
 app.post('/users', async (req, res) => {
+    const { username, email, password } = req.body;
+
     try {
-        const user = await userModel.create(req.body);
-        res.status(201).json(user);
+        if (!password) {
+            return res.status(400).json({ message: 'Password is required' });
+        }
+
+        const userExists = await userModel.findOne({ username });
+
+        if (userExists) {
+            return res.status(400).json({ message: 'User already exists' });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10); // 10 é o número de rounds de salt
+
+        // Criar o usuário com a senha hasheada
+        const user = await userModel.create({
+            username,
+            email,
+            password: hashedPassword
+        });
+
+        res.status(200).json({ message: 'User registered successfully' });
     } catch (err) {
-        res.status(500).send(err);
+        return res.status(500).json({ error: err.message });
     }
 });
+
 
 app.get('/users', async (req, res) => {
     try {
@@ -23,6 +44,22 @@ app.get('/users', async (req, res) => {
         res.status(201).send(user);
     } catch (err) {
         res.status(500).send(err);
+    }
+});
+
+app.delete('/users', async (req, res) => {
+    const {username} = req.body;
+
+    try {
+        const user = await userModel.findOneAndDelete( {username} );
+
+        if (!user) {
+            return res.status(400).json( {message: 'user not found'} );
+        }
+
+        return res.status(200).json({message: 'user delete succesfully'});
+    } catch(err) {
+        return res.status(500).json({error: err.message});
     }
 });
 
