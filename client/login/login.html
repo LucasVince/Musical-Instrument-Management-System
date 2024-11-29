@@ -4,22 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
     <link rel="stylesheet" href="login.css">
+    <script src="login.js" defer></script>
 </head>
 <body>
     <header>
 
     </header>
     <main>
-        <div>
-            <input placeholder="email or username" id="UserEmailInput">
-        </div>
-        <div>
-            <input placeholder="password" type="password" id="PasswordlInput">
-            <button>show password</button>
-        </div>
-        <button>sing in with google</button>
-        <p><a href="#">sing up</a></p>
+        <form method="post" id="loginForm">
+            <h1>Login</h1>
+            <div>
+                <input placeholder="email or username" id="UserEmailInput">
+                <ion-icon name="person"></ion-icon>
+            </div>
+            <div>
+                <input placeholder="password" type="password" id="PasswordlInput">
+                <ion-icon name="lock-closed"></ion-icon>
+            </div>
+            <div id="passwordContainer">
+                <div id="rememberMe"><input type="checkbox" id="checkRememberMeInput">Remeber me</div>
+                <div id="forgotPassword"><a href="#">Forgot Password?</a></div>
+            </div>
+            <button type="submit" id="SingIn">Sing in</button>
+            <button><ion-icon name="logo-google"></ion-icon>sing in with google</button>
+            <p>Don't have an account? <a href="#">Register</a></p>
+        </form>
     </main>
 </body>
 </html>
