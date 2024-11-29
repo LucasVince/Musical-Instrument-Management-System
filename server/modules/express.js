@@ -22,16 +22,15 @@ app.post('/users', async (req, res) => {
             return res.status(400).json({ message: 'User already exists' });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10); // 10 é o número de rounds de salt
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Criar o usuário com a senha hasheada
         const user = await userModel.create({
             username,
             email,
             password: hashedPassword
         });
 
-        res.status(200).json({ message: 'User registered successfully' });
+        res.status(200).json(user);
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }
