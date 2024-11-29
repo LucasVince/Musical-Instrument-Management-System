@@ -3,7 +3,7 @@ const passwordInput = document.querySelector('#PasswordlInput');
 
 const loginForm = document.querySelector('#loginForm');
 
-const singIn = async (event) => {
+const singIn = async event => {
     event.preventDefault();
 
     const username = userInput.value;
