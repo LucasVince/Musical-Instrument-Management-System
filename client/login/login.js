@@ -3,6 +3,18 @@ const passwordInput = document.querySelector('#PasswordlInput');
 
 const loginForm = document.querySelector('#loginForm');
 
+const localStorageUserData = localStorage.getItem('regiteredUserData');
+
+if (localStorageUserData !== null) {
+    const userData = JSON.parse(localStorageUserData);
+
+    console.log(userData.username);
+    console.log(userData.password);
+
+    userInput.value = userData.username
+    passwordInput.value = userData.password
+}
+
 const singIn = async event => {
     event.preventDefault();
 
@@ -22,8 +34,10 @@ const singIn = async event => {
             throw new Error(data.message);
         }
 
-        alert('login done sucessfully');
-        console.log('login done sucessfully');
+        setTimeout(() => {
+            window.location.href = '../home/home.html';
+            localStorage.clear();
+        }, 500);
     } catch (err) {
         alert(err.message);
         console.log(err.message);

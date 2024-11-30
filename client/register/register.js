@@ -18,14 +18,20 @@ const singUp = async event => {
             body: JSON.stringify( {username, email, password} )
         });
 
-        const data = response.json();
+        const data = await response.json();
 
         if (!response.ok) {
             throw new Error(data.message);
         }
 
-        alert('User registered successfully');
-        console.log('User registered successfully');
+        const userData = {
+            username: username,
+            password: password
+        };
+        
+        localStorage.setItem('regiteredUserData', JSON.stringify(userData));
+
+        setTimeout (() => window.location.href = '../login/login.html', 500);
     } catch (err) {
         alert(err.message);
         console.log(err.message);
