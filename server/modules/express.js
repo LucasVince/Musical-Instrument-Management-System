@@ -16,9 +16,10 @@ app.post('/users', async (req, res) => {
             return res.status(400).json({ message: 'Password is required' });
         }
 
-        const userExists = await userModel.findOne({ username });
+        const usernameAreadyTaken = await userModel.findOne({ username });
+        const emailAlreadyTaken = await userModel.findOne({ email });
 
-        if (userExists) {
+        if (usernameAreadyTaken || emailAlreadyTaken) {
             return res.status(400).json({ message: 'User already exists' });
         }
 
